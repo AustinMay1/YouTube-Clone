@@ -48,10 +48,10 @@ class CommentForm extends Component {
                 <form onSubmit={(event) => this.handleSubmit(event)}>
                     <div>
                     <input type="text" name="comment_text" onChange={this.handleChange}
-                    value={this.state.comment_text} placeholder="Comment here"/>    
+                    value={this.state.comment_text} placeholder="Commenting publicly..."/>    
                     </div>  
                     <div>
-                        <button className="btn btn-primary" type="submit">Submit</button>
+                        <button className="btn btn-primary" type="text">COMMENT</button>
                     </div>
                 </form>
             </React.Fragment>

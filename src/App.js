@@ -148,7 +148,7 @@ class App extends Component {
           </div>
           <br />
           <br />
-          <div className="container bg-light text-dark border border-primary">
+          <div className="container bg-light text-dark border border-primary"> 
           <RelatedVideos relatedVideos={this.state.relatedVideos} />
           </div>
           <br />

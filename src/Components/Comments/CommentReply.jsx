@@ -22,10 +22,18 @@ class CommentReply extends Component {
     }
     render() { 
         return ( 
-            <form onSubmit={this.handleSubmit}>
-            <input text="text" name="reply_text" value={this.state.reply_text} onChange={this.handleChange} />
-            <button type="submit">Comment</button>
-            </form>
+            <React.Fragment>
+                <h3>Reply:</h3>
+                <form onSubmit={(event) => this.handleSubmit(event)}>
+                    <div>
+                    <input type="text" name="reply_text" onChange={this.handleChange} 
+                    value={this.state.reply_text} placeholder="Commenting publicly..."/>    
+                    </div>  
+                    <div>
+                        <button className="btn btn-primary" type="comment">REPLY</button>
+                    </div>
+                </form>
+            </React.Fragment>
          );
     }
 }

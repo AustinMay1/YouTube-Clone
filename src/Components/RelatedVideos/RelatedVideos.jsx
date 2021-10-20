@@ -6,7 +6,7 @@ const RelatedVideos = (props) => {
                 {console.log("Related Videos Comp Props: ", props.relatedVideos)}
                 {props.relatedVideos.map((video,index) => {
                     return (
-                        <li><a href={`${video.snippet.thumbnails.default.url}`}>{video.videoId}</a></li>
+                        <li>src={`${video.snippet.thumbnails.default.url}`}{video.videoId}</li>
                     )
                 })}
 
