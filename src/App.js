@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import SearchBar from './Components/SearchBar/SearchBar';
 import RelatedVideos from './Components/RelatedVideos/RelatedVideos';
-import CommentForm from './Components/Comments/Comments';
+import CommentForm from './Components/Comments/CommentsForm'
+import CommentReply from './Components/Comments/CommentReply';
 
 class App extends Component {
   constructor(props) {
@@ -10,12 +11,12 @@ class App extends Component {
       this.state = {
         comments: [],
         filteredComments: [],
-        replies: [],
+        reply: [],
         videoId: '',
         videoTitle: '',
         videoDescription: '',
+        videoThumbnailUrl: '',
         relatedVideos: [],
-      
       }
   }
 
@@ -37,25 +38,16 @@ class App extends Component {
   }
 
   getRelatedVideos = async (videoData) => { 
-    let response = await axios.get (`https://www.googleapis.com/youtube/v3/search?relatedToVideoId=${videoData.videoId}&type=video&part=snippet&key=AIzaSyAIfh92bqWo0T_AbXjELe4jIF2iDLZvb18`);
-    let relatedVideos = response.data.items.filter(video => video.snippet);
-    let relatedVideosArray = relatedVideos.map((video) => {
-      return ({
-          videoId: video.id.videoId,
-          videoTitle: video.snippet.title,});
-      });
+    let response = await axios.get (`https://www.googleapis.com/youtube/v3/search?relatedToVideoId=${videoData.videoId}&type=video&part=snippet&maxresults=5&key=AIzaSyBFdn_wZ6qpX5EuF4xjT9VbPNi1oI8dtOw`);
       this.setState({
-        videoId: videoData.videoId,
-        videoTitle: videoData.videoTitle,
-        videoDescription: videoData.videoDescription,
-        relatedVideos: relatedVideosArray
-    })
+        relatedVideos: response.data.items
+      })
   }
 
-  getComments = async () => {
+  getComments = async (video_id) => {
     try{
       // console.log("get all comments request is called")   // test
-      let response = await axios.get('http://127.0.0.1:8000/comments/')
+      let response = await axios.get(`http://127.0.0.1:8000/comments/${video_id}`)
           this.setState({
           comments: response.data,
           })
@@ -112,6 +104,24 @@ class App extends Component {
       // console.log(err);
     }
   }
+  
+  getReply = async (reply, comment) => {
+    try{
+      reply.comment_id = comment.id;
+      let response = await axios.post('http://127.0.0.1:8000/YouTube_API/reply/', reply);
+      let newreply = this.state.reply;
+      newreply.push(response.data);
+      this.setState({
+        reply: newreply
+
+      })
+      
+    }
+    catch(err) {
+      // console.log(err);
+    }
+  }
+
 
   render() { 
     return (
@@ -145,6 +155,7 @@ class App extends Component {
           <br />
           <div className="container bg-light text-dark border border-primary">
           <CommentForm getComments={this.getComments} videoId={this.state.videoId}/>
+          <CommentReply getComments={this.getComments} getReply={this.getReply} />
           <br />
           <br />
           

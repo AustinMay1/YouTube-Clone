@@ -1,17 +1,15 @@
 import React from 'react';
 
 const RelatedVideos = (props) => {
-
-    function videoLinks() {
-        return props.relatedVideos.map((video) => {
-            return (
-                    <li><a href={`http://www.youtube.com/watch?v=${video.videoId}`}>{video.videoTitle}</a></li>
-                    );
-        });
-    }
         return (
             <div>
-                {videoLinks()}
+                {console.log("Related Videos Comp Props: ", props.relatedVideos)}
+                {props.relatedVideos.map((video,index) => {
+                    return (
+                        <li><a href={`${video.snippet.thumbnails.default.url}`}>{video.videoId}</a></li>
+                    )
+                })}
+
             </div>
         );
 }
